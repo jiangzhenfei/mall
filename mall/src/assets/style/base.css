@@ -1,0 +1,10 @@
+html,body{
+    height: 100%;
+}
+/* 重置整体布局 */
+.ivu-layout.ivu-layout-has-sider{
+    height: 100%;
+}
+table{
+    width: 100%
+}

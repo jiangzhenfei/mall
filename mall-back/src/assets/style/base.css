@@ -1,0 +1,16 @@
+html,body{
+    height: 100%;
+}
+/* 重置整体布局 */
+.ivu-layout.ivu-layout-has-sider{
+    height: 100%;
+}
+table{
+    width: 100% !important
+}
+.btn-container{
+    padding: 20px
+}
+.ivu-notice{
+    z-index: 9999999;
+}
