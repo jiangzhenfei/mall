@@ -8,3 +8,10 @@ html,body{
 table{
     width: 100%
 }
+#trolley table img{
+    width: 100px;
+    height: 100px;
+}
+.ivu-page{
+    margin-top: 10px
+}

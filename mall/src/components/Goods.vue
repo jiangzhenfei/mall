@@ -3,7 +3,7 @@
         <h3 v-if="tableData.length === 0" style="text-align:center">暂无商品</h3>
         <Col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item,i) in tableData" :key="i">
             <div class="card-box">
-                <div class="add" @click="add">
+                <div class="add" @click="add(item.id,item.store)">
                     <Icon type="plus-circled"></Icon>
                 </div>
                 <div class="img">
@@ -28,11 +28,7 @@ export default {
         return {
             id:this.$route.params.id,
             tableData:[
-                {user_name:1,tags_count:2,name:3,id:0},
-                {user_name:1,tags_count:2,name:3,id:1},
-                {user_name:1,tags_count:2,name:3,id:2},
-                {user_name:1,tags_count:2,name:3,id:3},
-                {user_name:1,tags_count:2,name:3,id:4}
+               
             ]
         }
     },
@@ -45,7 +41,17 @@ export default {
             this.id = to.params.id
         },
         //添加购物车，成功后更新头部购物车的数量
-        add(){
+        add(id,store){
+            console.log(id,store)
+            if( !this.isLogin() ){
+                this.showMessage('添加商品','还未登录')
+                return;
+            }
+            if( store <=0 ){
+                this.showMessage('添加商品','库存不足')
+                return;
+            }
+            //TODO...
             Event.trigger('addGood')
         },
         //获取商品类别导航

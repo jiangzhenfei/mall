@@ -13,8 +13,11 @@
 				</Sider>
 				<Layout>
 					<Header class="layout-header-bar">
-						<span>假的购物车数量{{ num }}</span>
+						<span v-if="user">用户{{ user }}已经登入</span>
+						<span v-else>用户还没登入入</span>
+						<span @click="trolley">假的购物车数量{{ num }}</span>
 						<span class="login" @click="login">请登入</span>
+						<span class="login" @click="logout">登出</span>
 						<span>免费注册</span>
 					</Header>
 					<div style="margin: 20px, background: #fff, padding:20px;margin-top:52px">
@@ -47,6 +50,7 @@
 <script>
 import Event from '../utils/subscrible'
 import * as Api from "@/services/goods"
+import * as Cookie from '@/utils/local'
 export default {
     name: 'HelloWorld',
     data () {
@@ -58,7 +62,8 @@ export default {
 			num:0,
 			goodsClass:[
 				{name:'pp',id:1}
-			]
+			],
+			user:Cookie.getCookie('user')
 		}
 	},
 	created(){
@@ -70,8 +75,13 @@ export default {
 		handleSelect(name){
 			this.$router.push(`/goods/${name}`);
 		},
+		//刷新购物车
 		refreshTrolley(){
 			this.num++
+		},
+		//刷新用户登入状态
+		refreshLoginStatus(){
+			this.user = Cookie.getCookie('user')
 		},
 		//获取商品类别导航
         getClassList(){
@@ -80,7 +90,7 @@ export default {
 				console.log(e)
 				this.goodsClass = e.data.response || []
 				//id可能为0
-				this.active = this.goodsClass[0].id === undefined ? "" : this.goodsClass[0].id
+				this.active = (this.goodsClass[0] && this.goodsClass[0].id) === undefined ? "" : this.goodsClass[0].id
 				this.active && this.handleSelect( this.active )
 				this.$nextTick( this.updateMenu.bind(this) )
             }
@@ -92,6 +102,19 @@ export default {
 		//去往login界面
 		login(){
 			this.$router.push({name:'login'});
+		},
+		logout(){
+			console.log('out')
+			Cookie.delCookie('user')
+			this.refreshLoginStatus()
+			//TODO...将购物车置空为0
+		},
+		trolley(){
+			if( !this.isLogin() ){
+                this.showMessage('查看购物车','还未登录')
+                return;
+            }
+			this.$router.push(`/trolley`);
 		}
 	},
 	computed: {

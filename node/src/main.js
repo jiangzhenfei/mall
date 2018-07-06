@@ -15,6 +15,7 @@ let pool = opt_Pool.getPool(); //创建连接池
 let user={};//用户
 let goodsClassList = []//商品类别
 let classId = 1;
+let goodsId = 1;
 let GoodsofClass = {}
 
 
@@ -65,7 +66,8 @@ app.post('/goods/add/:id', function( req, res ) {
         desc:  req.body.desc || '',
         money: req.body.money,
         store: req.body.store,
-        img:   '/images/goods.jpg'
+        img:   '/images/goods.jpg',
+        id:    goodsId++
     })
     let json = {
         code:200,

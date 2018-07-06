@@ -27,6 +27,11 @@ export default new Router({
 			path: '/registry',
 			name: 'registry',
 			component: resolve => require(['@/components/registry'], resolve),
+		},
+		{
+			path: '/trolley',
+			name: 'trolley',
+			component: resolve => require(['@/components/trolley'], resolve),
 		}
 	]
 })

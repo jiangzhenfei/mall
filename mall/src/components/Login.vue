@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import * as Api from "@/services/auth.js"
+import * as Cookie from '@/utils/local'
 export default {
     name: 'Login',
     data(){
@@ -55,7 +57,13 @@ export default {
         handleSubmit( name ){
             this.$refs[name].validate(valid => {
                 if (valid) {
-                    console.log('succesee')
+                    let service = ()=> Api.login()
+                    let callback = (e)=>{
+                        console.log(e)
+                        Cookie.setCookie('user',e)
+                        this.$router.go(-1)
+                    }
+                    this.doServiceAndCallback('登入',service,callback)
                 }
             })
         },
