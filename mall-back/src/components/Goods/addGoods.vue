@@ -30,6 +30,11 @@
                                     <InputNumber v-model="formInline.store"></InputNumber>
                                 </FormItem>  
                             </Col>
+                            <Col span="24">
+                                <Upload action="/upload" name="image_cover" :format="['jpg','jpeg','png']" :on-success="fileSuccess">
+                                    <Button type="ghost" icon="ios-cloud-upload-outline">Upload files</Button>
+                                </Upload>
+                            </Col>
                         </Row>
                     </Col>
                 </Row>
@@ -54,7 +59,8 @@ export default {
                 name: '',
                 desc: '',
                 money:100,
-                store:0
+                store:0,
+                img:''
 
             },
             ruleInline: {
@@ -77,6 +83,10 @@ export default {
         add(name){
             this.$refs['addGoods'].validate((valid) => {
                 if (valid) {
+                    if( !this.hasImg()){
+                        this.$Message.error('请上传图片！');
+                        return;
+                    }
                     let service = () => Api.addGoods(this.id,this.formInline);
                     let callback = (e) => {
                         this.back()
@@ -88,8 +98,18 @@ export default {
                     
             })
         },
+        hasImg(){
+            if(this.formInline.img){
+                return true
+            }
+            return false;
+        },
         back(){
             this.$router.go(-1)
+        },
+        fileSuccess(response, file, fileList){
+            console.log(response)
+            this.formInline.img = response.url;
         }
     },
 
