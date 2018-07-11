@@ -3,7 +3,7 @@
 ### mall-back 商城的后台管理界面
 ### node 服务器
 
-# 启动
+# 启动 前后端服务
 ### 1.进入node/src
 ### 2.输入node main.js
 ### 3.进入mall
