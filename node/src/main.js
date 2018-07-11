@@ -4,35 +4,47 @@ var bodyParser = require('body-parser');
 var fs = require('fs')
 //文件上传插件
 var multiparty = require('multiparty'); 
-//增加body-parser中间件
+
+//增加body-parser中间件 通过req.body获取post上传登body数据
 app.use( bodyParser.urlencoded( { extended: false } ) ); 
 app.use(bodyParser.json()); 
 
+//增加cookie中间件 通过eq.cookies获取cookies
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
+//返回前端的格式化方法
+var Response = require('./response')
+//token过期封装
+var token = require('./token')
+app.use(token());
 
+//localhost:8080/images/goods.png 就是访问/static/images/goods.png
 app.use(express.static('static'));
 
+//数据库连接池
 let OptPool = require('./mysql-pool')
-
 let opt_Pool = new OptPool();  //初始化连接池对象
 let pool = opt_Pool.getPool(); //创建连接池
 
-let user={};//用户
-let goodsClassList = []//商品类别
+
+/**
+ * 保存数据，假数据，商品类别，商品列表的变量
+ * 目前都是假数据
+ */
+const user={};//用户
+const goodsClassList = []//商品类别
 let classId = 1;
 let goodsId = 1;
-let GoodsofClass = {}
+const GoodsofClass = {}
 
 
 //获取商品类别
 app.get('/class/list', function( req, res ) {
     let arr = goodsClassList;
-    let json = {
-        response:arr,
-        code:200,
-        success:true
-    }
-    let result = JSON.stringify( json )
+    //Response.status402(res) //将外部的code变成402，一般402就是延时
+    //console.log(req.cookies)// { user: 'fei', dnt: 'a793d4ab-d3c2-46b2-8468-c9a1d441d326' }
+    let result = Response.success( arr )
     res.send( result )
 });
 
@@ -40,26 +52,17 @@ app.get('/class/list', function( req, res ) {
 app.get('/goods/list/:id', function( req, res ) {
     let id = req.params.id
     let arr = GoodsofClass[id] || []
-    let json = {
-        response:arr,
-        code:200,
-        success:true
-    }
-    let result = JSON.stringify( json )
+    let result = Response.success( arr )
     res.send( result )
 });
 
-//获取商品类别
+//新增商品类别
 app.post('/class/add', function( req, res ) {
     goodsClassList.push({
         name:req.body.name,
         id: classId++
     })
-    let json = {
-        code:200,
-        success:true
-    }
-    let result = JSON.stringify( json )
+    let result = Response.success( )
     res.send( result )
 });
 
@@ -74,11 +77,7 @@ app.post('/goods/add/:id', function( req, res ) {
         img:   req.body.img || '/images/goods.jpg',//保存文件服务器返回给前端的图片路径
         id:    goodsId++
     })
-    let json = {
-        code:200,
-        success:true
-    }
-    let result = JSON.stringify( json )
+    let result = Response.success( )
     res.send( result )
 });
 
@@ -96,18 +95,15 @@ app.post('/upload', function( req, res ) {
     form.parse(req, function(err,fields,files) {
         //报错处理
         if(err){
-            var u={"error" :1,"message":'请上传5M以图片'};
-            res.end(JSON.stringify(u));
+            res.send(Response.error( '请上传5M以图片' ))
             return false;
         }
         //获取路径
         var oldpath=files.image_cover[0]['path'];
         let json = {
-            code:    200,
-            url:     oldpath.split('/').slice(1).join('/'),//应为不需要static开头，使用了 app.use(express.static('static'));
-            success: true
+            url: oldpath.split('/').slice(1).join('/'),//应为不需要static开头，使用了 app.use(express.static('static'));
         }
-        let result = JSON.stringify( json )
+        let result = Response.success(json )
         res.send( result )
     });
 });

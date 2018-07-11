@@ -109,7 +109,7 @@ export default {
         },
         fileSuccess(response, file, fileList){
             console.log(response)
-            this.formInline.img = response.url;
+            this.formInline.img = response.response.url;
         }
     },
 
