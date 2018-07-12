@@ -17,7 +17,7 @@ app.use(cookieParser());
 var Response = require('./response')
 //token过期封装
 var token = require('./token')
-app.use(token());
+//app.use(token());
 
 //localhost:8080/images/goods.png 就是访问/static/images/goods.png
 app.use(express.static('static'));

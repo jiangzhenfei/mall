@@ -1,0 +1,102 @@
+<template>
+    <card>
+        <Row type="flex" justify="end" class="btn-container">
+            <Col>
+                <Button type="primary" icon="ios-list-outline" @click="add">账目流水</Button>
+            </Col>
+        </Row>
+        <Table  
+            ref="projectTable"
+            :loading="loading"
+            :columns="tableConfig"
+            :data="tableData" 
+            @on-selection-change="onSelectionChange"
+            stripe>
+        </Table>
+        <Page 
+            ref="projectPage"
+            :current.sync="page" 
+            :page-size='pageSize' 
+            :total="total" 
+            :page-size-opts="pageSizeOpts"
+            @on-change="handlePage"
+            @on-page-size-change="handlePageSize"
+            show-elevator show-sizer>
+        </Page>
+    </card>
+</template>
+
+<script>
+
+import * as Api from "@/services/goods"
+import addGoodsClass from  '../modal/addClass.vue'
+
+export default {
+    name: 'goodsClass',
+    data(){
+        return {
+            id:this.$route.params.id,
+            page:1,
+            pageSize:5,
+            total:0,
+            searchText:'',
+            pageSizeOpts:[5,20,50],
+            tableConfig:[],
+            loading:false,
+            selectionv:[],
+
+            tableData:[
+                
+            ]
+        }
+    },
+    mounted(){
+        this.initTable()
+        this.getGoodsList()
+    },
+    methods:{
+        initTable(){
+            this.tableConfig = [
+                {title: ' ',key: 'host',width: 30,render:(h,params)=>{
+                    return (
+                        <icon type="android-person"></icon>
+                    )
+                }},
+                {title: "名称",width:'15%',
+                    render:(h,params) => {
+                        return (
+                            <span class="syan">{params.row.name}</span>
+                        )
+                    }
+                },
+                {title: "图片",key: "img",width:'15%'},
+                {title: "描述",key: "desc",width:'20%',render:(h,params)=>{
+                    return h('span', params.row.desc);
+                }},
+                {title: "价格",key: "money",width:'15%'},
+                {title: "库存",key: "store",width:'15%'},
+            ]
+        },
+        //获取商品类别导航
+        getGoodsList(){
+            let service = ()=> Api.getGoodsList(this.id)
+            let callback = (e) => {
+				console.log(e)
+				this.tableData = e.data.response || []
+            }
+            this.doService("获取商品列表",service,callback)
+		},
+        onSelectionChange(){},
+        handlePage(){},
+        handlePageSize(){},
+        add(){
+            this.$router.push(`/addGoods/${this.id}`);
+        }
+    },
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+</style>

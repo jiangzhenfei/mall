@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as setter from '@/utils/local'
+import router from '../router'
 // axios 配置
 axios.defaults.timeout = 15000;
 axios.defaults.baseURL = '/';
@@ -10,6 +11,10 @@ axios.interceptors.request.use(
         if (setter.getCookie('dnt')) {/*获取cookie里面dnt的值，放到x-auth-token这个header里，上个版本的请求，本版本只需要cookie，留着万一后端需要*/
             config.headers['x-auth-token'] = setter.getCookie('dnt');
         }
+        //没报保存的数据则跳登入
+        // if (!setter.getCookie('ccc')) {
+        //     router.replace({name: 'login'})
+        // }
         return config;
     },
     err => {

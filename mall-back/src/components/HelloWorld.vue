@@ -8,7 +8,7 @@
 							<Icon type="ios-navigate"></Icon>
 							<span>商品类别</span>
 						</MenuItem>
-						<MenuItem name="user" >
+						<MenuItem name="userInfo" >
 							<Icon type="ios-navigate"></Icon>
 							<span>用户信息</span>
 						</MenuItem>
@@ -16,7 +16,7 @@
 							<Icon type="ios-navigate"></Icon>
 							<span>订单详情</span>
 						</MenuItem>
-						<MenuItem name="fluid" >
+						<MenuItem name="account" >
 							<Icon type="ios-navigate"></Icon>
 							<span>流水查询</span>
 						</MenuItem>
@@ -52,7 +52,14 @@ export default {
 			active: '',
 			openMenu:[],
 			num:0,
-			goodsClass:[]
+			goodsClass:[],
+			//名称和路由对应表
+			routeMap:{
+				class:'goodsClass',
+				userInfo:'userInfo',
+				order:'order',
+				account:'account'
+			}
 		}
 	},
 	created(){
@@ -60,7 +67,7 @@ export default {
 	},
 	methods:{
 		handleSelect(name){
-
+			this.$router.push({name: this.routeMap[name] });
 		},
 		updateMenu(){
             this.$refs.nav.updateActiveName();
