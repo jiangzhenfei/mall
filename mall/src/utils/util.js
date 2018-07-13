@@ -9,8 +9,19 @@ export default{
         Vue.prototype.showSuccess = ( actionName,) => {
             iView.Notice.success( { title: actionName + '成功! '} ); 
         }
+        //判断是否是对象
+        Vue.prototype.isObject = ( data ) => {
+            return Object.prototype.toString.call( data ) === '[object Object]'
+        }
+        //获取后端错误信息在哪
+        Vue.prototype.getErrorMessage = ( err ) => {
+            if( Vue.prototype.isObject( err.data ) ){
+                return err.data.messages || err.data.message
+            }
+            return err.data
+        }
         //发送请求，一般用于get请求
-        Vue.prototype.doService = (actionName, service, callback, status) => {
+        Vue.prototype.doService = ( actionName, service, callback, status ) => {
             status = typeof( status ) == 'undefined' ? function(){} : status;
             status('loading');
             if( typeof service == "function" ){
@@ -21,7 +32,7 @@ export default{
                     //http异常
                     console.log( err )
                     status('error');
-                    Vue.prototype.showMessage( actionName, err.message );
+                    Vue.prototype.showMessage( actionName, Vue.prototype.getErrorMessage( err ) );
                 });
             }else{
                 status( 'loading' );
@@ -32,7 +43,7 @@ export default{
                     //http异常
                     console.log( err )
                     status('error');
-                    Vue.prototype.showMessage(actionName, err.message );
+                    Vue.prototype.showMessage( actionName, Vue.prototype.getErrorMessage( err ) );
                 });
             }
         }
@@ -43,7 +54,7 @@ export default{
             return false;
         } 
         //发送请求，一般用于post请求
-        Vue.prototype.doServiceAndCallback = (actionName, service, callback, status) => {
+        Vue.prototype.doServiceAndCallback = ( actionName, service, callback, status ) => {
             status = typeof( status ) == 'undefined' ? function(){} : status;
             status('loading');
             if( typeof service == "function" ){
@@ -55,7 +66,7 @@ export default{
                     //http异常
                     console.log( err )
                     status('error');
-                    Vue.prototype.showMessage( actionName, err.message );
+                    Vue.prototype.showMessage( actionName, Vue.prototype.getErrorMessage( err ) );
                 });
             }else{
                 status( 'loading' );
@@ -67,7 +78,7 @@ export default{
                     //http异常
                     console.log( err )
                     status('error');
-                    Vue.prototype.showMessage(actionName, err.message );
+                    Vue.prototype.showMessage(actionName, Vue.prototype.getErrorMessage( err ) );
                 });
             }
         }

@@ -5,7 +5,7 @@
     width="50%"
     @on-ok="ok"
     @on-cancel="cancel">
-    <Form ref="addClassForm" :model="form" label-position="top" :rules="rules">
+    <Form ref="amendClassForm" :model="form" label-position="top" :rules="rules">
         <Row>
             <Col span="24">
                 <FormItem label="类别名称" prop="sortNames">
@@ -25,9 +25,13 @@
 import * as Api from "@/services/goods"
 export default {
     name:'',
+    props:{
+        data: { type: Object,  require: true },
+    },
     data(){
         return {
             showHostToScale:false,
+            sortID:"",
             form:{
                 sortNames:'',
             },
@@ -42,21 +46,26 @@ export default {
     created(){
         setTimeout(()=>{
             this.showHostToScale = true;
+            this.form.sortNames = this.data.sortName
+            this.sortID = this.data.sortID
         },0)
     },
     methods:{
         /*提交创建*/
         ok() {
-            this.$refs['addClassForm'].validate((valid) => {
+            console.log(1)
+            this.$refs['amendClassForm'].validate((valid) => {
+                console.log(valid)
                 if (valid) {
-                    let service = () => Api.addGoodsClass({sortNames:[this.form.sortNames]});
+                    let service = () => Api.amendGoodsClass(this.sortID,{sortNames:[this.form.sortNames]});
                     let callback = (e) => {
                         this.showHostToScale = false;
                         setTimeout(()=>{
-                            this.$emit('setaddmodal','success')
+                            this.$emit('setamendmodal','success')
                         },500)
                     }
-                    this.doServiceAndCallback("新增类别",service,callback)
+                    this.doServiceAndCallback("修改类别",service,callback)
+                    console.log(valid)
                 } else {
                     this.$Message.error('表单填写不正确！');
                 }
@@ -65,7 +74,7 @@ export default {
         cancel(){
             this.showHostToScale = false;
             setTimeout(()=>{
-                this.$emit('setaddmodal','cancel')
+                this.$emit('setamendmodal','cancel')
             },500)
         }
     }

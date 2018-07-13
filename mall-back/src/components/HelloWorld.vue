@@ -25,7 +25,8 @@
 				</Sider>
 				<Layout>
 					<Header class="layout-header-bar">
-						<span class="login" @click="login">请登入</span>
+						<span v-if="user" class="login" style="margin-right:20px">{{user}}</span>
+						<span v-if="user" class="login" @click="logout">登出</span>
 					</Header>
 					<div style="margin: 20px, background: #fff, padding:20px;margin-top:52px">
 						<div>
@@ -42,11 +43,13 @@
 
 <script>
 import Event from '../utils/subscrible'
-import * as Api from "@/services/goods"
+import * as Api from "@/services/user"
+import * as setter from '@/utils/local'
 export default {
     name: 'HelloWorld',
     data () {
 		return {
+			user:setter.getCookie('osm_user'),
 			value: 0,
 			isCollapsed: false,
 			active: '',
@@ -73,8 +76,14 @@ export default {
             this.$refs.nav.updateActiveName();
 		},
 		//去往login界面
-		login(){
-			this.$router.push({name:'login'});
+		logout(){
+			let service = ()=> Api.logout()
+			let callback = (e) => {
+				this.$router.push({name:'login'});
+				this.clearUserInfo()
+			}
+			this.doServiceAndCallback("登出",service,callback)
+			
 		}
 	},
 	computed: {
@@ -87,7 +96,6 @@ export default {
 	},
 	watch: {
         '$route' (to, from) {
-			console.log(to)
 			this.active = to.meta.nav;
 			this.$nextTick(()=>{
 				this.updateMenu()

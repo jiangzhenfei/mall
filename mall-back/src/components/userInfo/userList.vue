@@ -28,7 +28,7 @@
 
 <script>
 
-import * as Api from "@/services/goods"
+import * as Api from "@/services/user"
 import addGoodsClass from  '../modal/addClass.vue'
 
 export default {
@@ -52,7 +52,7 @@ export default {
     },
     mounted(){
         this.initTable()
-        this.getGoodsList()
+        this.getAllClient()
     },
     methods:{
         initTable(){
@@ -65,23 +65,18 @@ export default {
                 {title: "名称",width:'15%',
                     render:(h,params) => {
                         return (
-                            <span class="syan">{params.row.name}</span>
+                            <span class="syan">{params.row.userName}</span>
                         )
                     }
                 },
-                {title: "图片",key: "img",width:'15%'},
-                {title: "描述",key: "desc",width:'20%',render:(h,params)=>{
-                    return h('span', params.row.desc);
-                }},
-                {title: "价格",key: "money",width:'15%'},
-                {title: "库存",key: "store",width:'15%'},
+                {title: "创建时间",key: "createTime",width:'15%'},
+                {title: "更新时间",key: "updateTime",width:'15%'},
             ]
         },
         //获取商品类别导航
-        getGoodsList(){
-            let service = ()=> Api.getGoodsList(this.id)
+        getAllClient(){
+            let service = ()=> Api.getAllClient()
             let callback = (e) => {
-				console.log(e)
 				this.tableData = e.data.response || []
             }
             this.doService("获取商品列表",service,callback)

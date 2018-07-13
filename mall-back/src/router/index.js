@@ -32,6 +32,12 @@ export default new Router({
 					component: resolve => require(['@/components/Goods/addGoods'], resolve),
 				},
 				{
+					path: '/amendGoods/:classId/:goodId',
+					name: 'amendGoods',
+					meta:{nav:'class'},
+					component: resolve => require(['@/components/Goods/amendGood'], resolve),
+				},
+				{
 					path: '/userInfo',
 					name: 'userInfo',
 					meta:{nav:'userInfo'},

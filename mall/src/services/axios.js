@@ -2,7 +2,7 @@ import axios from 'axios'
 import * as setter from '@/utils/local'
 // axios 配置
 axios.defaults.timeout = 15000;
-axios.defaults.baseURL = '/';
+axios.defaults.baseURL = '/osm/client/';
 
 // http request 拦截器
 axios.interceptors.request.use(

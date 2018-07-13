@@ -26,6 +26,10 @@
         <div v-if="showAdd">
             <add-goods-class v-on:setaddmodal="setAddModal"></add-goods-class>
         </div>
+
+        <div v-if="showAmend">
+            <amend-goods-class v-on:setamendmodal="setAmendModal" :data="classInfo"></amend-goods-class>
+        </div>
     </card>
 </template>
 
@@ -33,14 +37,18 @@
 import Event from '../utils/subscrible'
 import * as Api from "@/services/goods"
 import addGoodsClass from  './modal/addClass.vue'
+import amendGoodsClass from  './modal/amendClass.vue'
 
 export default {
     name: 'goodsClass',
     components:{
-        addGoodsClass
+        addGoodsClass,
+        amendGoodsClass
     },
     data(){
         return {
+            classInfo:{},
+            showAmend:false,
             showAdd:false,
             page:1,
             pageSize:5,
@@ -71,21 +79,31 @@ export default {
                 {title: "名称",width:'15%',
                     render:(h,params) => {
                         return (
-                            <span class="syan" on-click={ ()=>{this.goGoodsList(params.row.id)} }>{params.row.name}</span>
+                            <span class="syan" on-click={ ()=>{this.goGoodsList(params.row.sortID)} }>{params.row.sortName}</span>
                         )
                     }
                 },
-                {title: "id",key: "project_name",width:'20%',render:(h,params)=>{
-                    return h('span', params.row.id);
+                {title: "id",key: "sortID",width:'20%',render:(h,params)=>{
+                    return h('span', params.row.sortID);
                 }},
-                {title: "创建时间",key: "name",width:'15%'},
+                {title: "创建时间",key: "createTime",width:'15%'},
+                {title: '操作',key: 'id',width:'20%',
+                    render:(h,params) =>{
+                        return (
+                            <div>
+                                <i-button size="small" type="primary" icon="trash-a" on-click={() => this.delete(params.row.sortID)}>删除</i-button>
+                                <i-button size="small" type="error" icon="android-exit" on-click={() => this.amend(params.row)}>修改</i-button>
+                            </div>
+                            
+                        )
+                    }
+                }
             ]
         },
         //获取商品类别导航
         getClassList(){
             let service = ()=> Api.getClassList()
             let callback = (e) => {
-				console.log(e)
 				this.tableData = e.data.response || []
             }
             this.doService("获取商品列表",service,callback)
@@ -98,6 +116,23 @@ export default {
                 this.getClassList()
             }
             this.showAdd = false;
+        },
+        setAmendModal( e ) {
+            if( e === 'success' ){
+                this.getClassList()
+            }
+            this.showAmend = false;
+        },
+        delete(id){
+            let service = ()=> Api.deleteClass(id)
+            let callback = (e) => {
+                this.getClassList()
+            }
+            this.doServiceAndCallback("删除商品类别",service,callback)
+        },
+        amend(data){
+            this.classInfo = data;
+            this.showAmend = true
         },
         goGoodsList(id){
             this.$router.push(`/goodsList/${id}`);

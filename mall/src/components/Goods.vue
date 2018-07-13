@@ -7,11 +7,11 @@
                     <Icon type="plus-circled"></Icon>
                 </div>
                 <div class="img">
-                    <img :src="item.img" />
+                    <img :src="item.commodityPic" />
                 </div>
                 <div class="info">
-                    <p class="goods-desc">{{item.desc}}</p>
-                    <p>{{item.money}}</p>
+                    <p class="goods-desc">{{item.commodityBrand}}</p>
+                    <p>{{item.commodityPrice}}</p>
                 </div>
             </div>
         </Col>

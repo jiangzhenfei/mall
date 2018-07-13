@@ -2,7 +2,7 @@
     <div>
         <card>
             <h5 class="pannel-title">新增商品</h5>
-            <Form ref="addGoods" :model="formInline" :rules="ruleInline">
+            <Form ref="amendGoods" :model="formInline" :rules="ruleInline">
                 <Row>
                     <Col span="12">
                         <Row>
@@ -40,7 +40,7 @@
                 </Row>
                 <Row>
                     <Col span="24" style="text-align:center">
-                        <Button type="primary" icon="checkmark" @click="add">提交</Button>
+                        <Button type="primary" icon="checkmark" @click="amend">提交</Button>
                         <Button type="primary" icon="ios-rewind" @click="back">返回</Button>
                     </Col>
                 </Row>
@@ -55,14 +55,14 @@ import * as setter from '@/utils/local'
 export default {
     data(){
         return{
-            id:this.$route.params.id,
+            classId:this.$route.params.classId,
+            goodId:this.$route.params.goodId,
             formInline: {
                 commodityName: '',
                 commodityPrice:100,
                 commodityStock:0,
                 commodityBrand:'',
                 commodityPic:'',
-                commoditySort:this.$route.params.id,
             },
             token:{
                 "x-auth-token":setter.getCookie('osm')
@@ -82,20 +82,42 @@ export default {
         }
     },
     created(){
+        this.getGoodsDetail()
     }, 
     methods: {
-        add(name){
-            this.$refs['addGoods'].validate((valid) => {
+        //获取商品类别导航
+        getGoodsDetail(){
+            let service = ()=> Api.getGoodsList(this.classId)
+            let callback = (e) => {
+                console.log(e)
+                let goodsArr = e.data.response || []
+                let _thisGoods = goodsArr.find((v)=>{
+                   return  v.commodityID === this.goodId
+                })
+                this.initForm( _thisGoods )
+				this.tableData = e.data.response || []
+            }
+            this.doService("获取商品列表",service,callback)
+        },
+        initForm( form ){
+            this.formInline.commodityName = form.commodityName
+            this.formInline.commodityPrice = form.commodityPrice
+            this.formInline.commodityStock = form.commodityStock
+            this.formInline.commodityBrand = form.commodityBrand
+            this.formInline.commodityPic = form.commodityPic
+        },
+        amend(name){
+            this.$refs['amendGoods'].validate((valid) => {
                 if (valid) {
                     if( !this.hasImg()){
                         this.$Message.error('请上传图片！');
                         return;
                     }
-                    let service = () => Api.addGoods(this.formInline);
+                    let service = () => Api.amendGoods(this.goodId,this.formInline);
                     let callback = (e) => {
                         this.back()
                     }
-                    this.doServiceAndCallback("新增商品",service,callback)
+                    this.doServiceAndCallback("修改商品",service,callback)
                 } else {
                     this.$Message.error('表单填写不正确！');
                 }

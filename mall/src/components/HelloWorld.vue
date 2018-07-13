@@ -4,9 +4,9 @@
 			<Layout>
 				<Sider class='Sider' breakpoint="md" :collapsed-width="78">
 					<Menu ref="nav" theme="dark" width="auto" :class="menuitemClasses" @on-select="handleSelect" :active-name="active" v-cloak accordion>
-						<MenuItem :name="item.id" v-for="item in goodsClass" :key="item.id">
+						<MenuItem :name="item.sortID" v-for="item in goodsClass" :key="item.sortID">
 							<Icon type="ios-navigate"></Icon>
-							<span>{{item.name}}</span>
+							<span>{{item.sortName}}</span>
 						</MenuItem>
 					</Menu>
 					<div slot="trigger"></div>
@@ -61,7 +61,7 @@ export default {
 			openMenu:[],
 			num:0,
 			goodsClass:[
-				{name:'pp',id:1}
+				
 			],
 			user:Cookie.getCookie('user')
 		}
@@ -90,7 +90,7 @@ export default {
 				console.log(e)
 				this.goodsClass = e.data.response || []
 				//id可能为0
-				this.active = (this.goodsClass[0] && this.goodsClass[0].id) === undefined ? "" : this.goodsClass[0].id
+				this.active = (this.goodsClass[0] && this.goodsClass[0].sortID) === undefined ? "" : this.goodsClass[0].sortID
 				this.active && this.handleSelect( this.active )
 				this.$nextTick( this.updateMenu.bind(this) )
             }

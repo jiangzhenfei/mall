@@ -3,13 +3,13 @@
         <Col span="24" class="bk">
             <div class="login">
                 <Form ref="formCustom" :model="formCustom" :rules="ruleCustom"  class="card-box box-custom" >
-                    <FormItem prop="user" label="用户名">
-                        <Input type="text"  size="large" v-model="formCustom.user" placeholder="用户名">
+                    <FormItem prop="userName" label="用户名">
+                        <Input type="text"  size="large" v-model="formCustom.userName" placeholder="用户名">
                             <Icon type="person" slot="prepend" size="20" style="color:#307fff"></Icon>
                         </Input>
                     </FormItem>
-                    <FormItem prop="password" label="密码">
-                        <Input type="password" size="large" v-model="formCustom.password" placeholder="密码" @keyup.enter.native="handleSubmit('formCustom')">
+                    <FormItem prop="userPass" label="密码">
+                        <Input type="password" size="large" v-model="formCustom.userPass" placeholder="密码" @keyup.enter.native="handleSubmit('formCustom')">
                             <Icon type="ios-locked" slot="prepend" size="20" style="color:#307fff"></Icon>
                         </Input>
                     </FormItem>
@@ -29,20 +29,22 @@
 </template>
 
 <script>
+import * as Api from "@/services/user"
+import * as setter from '@/utils/local'
 export default {
     name: 'Login',
     data(){
         return {
             formCustom:{
-                user:'',
-                password:''
+                userName:'',
+                userPass:''
             },
             loading:false,
             ruleCustom:{
-                user: [
+                userName: [
                     { required: true, message: "请填写用户名", trigger: "blur" }
                 ],
-                password: [
+                userPass: [
                     { required: true, message: "请填写密码", trigger: "blur" },
                     { type: "string", min: 4, message: "密码长度不能小于4位", trigger: "blur" }
                 ]
@@ -55,7 +57,12 @@ export default {
         handleSubmit( name ){
             this.$refs[name].validate(valid => {
                 if (valid) {
-                    console.log('succesee')
+                    let service = ()=> Api.login(this.formCustom)
+                    let callback = (e) => {
+                        this.saveUserInfo(e.data.response)
+                        this.$router.push({name:'goodsClass'});
+                    }
+                    this.doServiceAndCallback("登入",service,callback)
                 }
             })
         },

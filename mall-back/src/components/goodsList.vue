@@ -65,16 +65,27 @@ export default {
                 {title: "名称",width:'15%',
                     render:(h,params) => {
                         return (
-                            <span class="syan">{params.row.name}</span>
+                            <span class="syan">{params.row.commodityName}</span>
                         )
                     }
                 },
-                {title: "图片",key: "img",width:'15%'},
-                {title: "描述",key: "desc",width:'20%',render:(h,params)=>{
-                    return h('span', params.row.desc);
+                {title: "图片",key: "commodityPic",width:'15%'},
+                {title: "品牌",key: "commodityBrand",width:'20%',render:(h,params)=>{
+                    return h('span', params.row.commodityBrand);
                 }},
-                {title: "价格",key: "money",width:'15%'},
-                {title: "库存",key: "store",width:'15%'},
+                {title: "价格",key: "commodityPrice",width:'15%'},
+                {title: "库存",key: "commodityStock",width:'15%'},
+                {title: '操作',key: 'id',width:'12%',
+                    render:(h,params) =>{
+                        return (
+                            <div>
+                                <i-button size="small" type="error" icon="trash-a" on-click={() => this.delete(params.row.commodityID)}>删除</i-button>
+                                <i-button size="small" type="primary" icon="android-exit" on-click={() => this.amend(params.row.commodityID)}>修改</i-button>
+                            </div>
+                            
+                        )
+                    }
+                }
             ]
         },
         //获取商品类别导航
@@ -91,6 +102,16 @@ export default {
         handlePageSize(){},
         add(){
             this.$router.push(`/addGoods/${this.id}`);
+        },
+        delete(id){
+            let service = ()=> Api.deleteGoods(id)
+            let callback = (e) => {
+                this.getGoodsList()
+            }
+            this.doServiceAndCallback("删除商品",service,callback)
+        },
+        amend(id){
+            this.$router.push(`/amendGoods/${this.id}/${id}`);
         }
     },
 }
