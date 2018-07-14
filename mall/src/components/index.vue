@@ -2,7 +2,7 @@
     <div  style="margin-top:152px">
         <Row type="flex">
             <Sider class='Sider' breakpoint="md" :collapsed-width="78">
-                <Menu ref="nav" theme="dark" width="auto" :class="menuitemClasses" @on-select="handleSelect" v-cloak accordion>
+                <Menu ref="nav" theme="dark" width="auto" @on-select="handleSelect" v-cloak accordion>
                     <MenuItem :name="item.sortID" v-for="item in goodsClass" :key="item.sortID">
                         <Icon type="ios-navigate"></Icon>
                         <span>{{item.sortName}}</span>
@@ -13,16 +13,16 @@
             <Layout>
                 <Carousel autoplay v-model="value" loop class="auto_page" :autoplay-speed="5000">
                     <CarouselItem>
-                        <img src="../assets/images/timg.jpeg" alt="" srcset="">
+                        <img src="../assets/images/demo1.jpg" alt="" srcset="">
                     </CarouselItem>
                     <CarouselItem>
-                        <img src="../assets/images/timg (1).jpeg" alt="" srcset="">
+                        <img src="../assets/images/demo2.jpg" alt="" srcset="">
                     </CarouselItem>
                     <CarouselItem>
-                        <img src="../assets/images/timg (2).jpeg" alt="" srcset="">
+                        <img src="../assets/images/demo3.jpg" alt="" srcset="">
                     </CarouselItem>
                     <CarouselItem>
-                        <img src="../assets/images/timg (3).jpeg" alt="" srcset="">
+                        <img src="../assets/images/demo4.jpg" alt="" srcset="">
                     </CarouselItem>
                 </Carousel>
             </Layout>
@@ -59,6 +59,10 @@ export default {
             }
             this.doService("获取商品列表",service,callback)
 		},
+		//TODO
+		//1.图片也是后端获取
+		//1.图片也是可以点击
+
 	},
 }
 </script>
@@ -69,7 +73,7 @@ export default {
 	width: 1000px;
 	height: 460px;
 	margin: auto;
-	background:#f5f7f9
+	background:#fff
 }
 img{
 	width: 1000px;

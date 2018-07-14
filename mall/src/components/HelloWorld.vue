@@ -12,6 +12,15 @@
 			<div style="background: #fff;width:1226px;height:460px;margin:50px auto">
 				<router-view/>
 			</div>
+			<!-- 右侧简便栏 -->
+			<div class="convenient" v-if="false">
+				<div class="item">
+					<Icon class="header-icon" type="ios-cart" size="20"></Icon>
+				</div>
+				<div class="item">
+					<Icon class="header-icon" type="ios-cart" size="20"></Icon>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -76,6 +85,17 @@ export default {
 	text-align: center;
 	color: #2c3e50;
 	height: 100%;
+}
+.convenient{
+	position: fixed;
+	width: 50px;
+	border: 1px solid #ccc;
+	right:20px;
+	top:50%
+}
+.convenient .item{
+	height: 50px;
+	line-height: 50px;
 }
 .layout{
 	background: #fff;

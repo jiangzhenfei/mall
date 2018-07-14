@@ -78,7 +78,7 @@ export default {
 <style scoped>
 .bk{
     height: 475px;
-    background: url(../assets/images/loginBk.jpeg) no-repeat;
+    background: url(../assets/images/demo3.jpg) no-repeat;
     background-size: 100% 100%
 }
 .login{
