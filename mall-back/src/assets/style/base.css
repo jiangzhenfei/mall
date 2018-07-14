@@ -1,16 +1,38 @@
 html,body{
     height: 100%;
+    background: #ebeef2;
 }
 /* 重置整体布局 */
 .ivu-layout.ivu-layout-has-sider{
     height: 100%;
 }
 table{
-    width: 100% !important
+    width: 100% !important;
+}
+/* table 距离底部分页40px */
+.ivu-table-wrapper{
+    margin-bottom: 40px;
+}
+/* table 操作栏按钮间距 */
+.ivu-table-cell button{
+    margin-right: 5px
+}
+/* table 名称栏可进入详情的样式 */
+.ivu-table-cell .syan {
+    cursor: pointer;
+    color: #307fff;
+}
+/* 分页左对齐 */
+.ivu-page{
+    text-align: left
 }
 .btn-container{
     padding: 20px
 }
 .ivu-notice{
     z-index: 9999999;
+}
+.ivu-layout-header{
+    line-height: 60px;
+    height: 60px;
 }

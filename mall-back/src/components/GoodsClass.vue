@@ -71,11 +71,6 @@ export default {
     methods:{
         initTable(){
             this.tableConfig = [
-                {title: ' ',key: 'host',width: 30,render:(h,params)=>{
-                    return (
-                        <icon type="android-person"></icon>
-                    )
-                }},
                 {title: "名称",width:'15%',
                     render:(h,params) => {
                         return (
@@ -87,7 +82,7 @@ export default {
                     return h('span', params.row.sortID);
                 }},
                 {title: "创建时间",key: "createTime",width:'15%'},
-                {title: '操作',key: 'id',width:'20%',
+                {title: '操作',key: 'id',width:'15%',
                     render:(h,params) =>{
                         return (
                             <div>

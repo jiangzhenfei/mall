@@ -81,7 +81,6 @@ export default {
         getGoodsList(){
             let service = ()=> Api.getGoodsList(this.id)
             let callback = (e) => {
-				console.log(e)
 				this.tableData = e.data.response || []
             }
             this.doService("获取商品列表",service,callback)

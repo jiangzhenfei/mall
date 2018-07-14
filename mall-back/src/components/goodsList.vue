@@ -57,15 +57,10 @@ export default {
     methods:{
         initTable(){
             this.tableConfig = [
-                {title: ' ',key: 'host',width: 30,render:(h,params)=>{
-                    return (
-                        <icon type="android-person"></icon>
-                    )
-                }},
                 {title: "名称",width:'15%',
                     render:(h,params) => {
                         return (
-                            <span class="syan">{params.row.commodityName}</span>
+                            <span>{params.row.commodityName}</span>
                         )
                     }
                 },
@@ -75,7 +70,7 @@ export default {
                 }},
                 {title: "价格",key: "commodityPrice",width:'15%'},
                 {title: "库存",key: "commodityStock",width:'15%'},
-                {title: '操作',key: 'id',width:'12%',
+                {title: '操作',key: 'id',width:'15%',
                     render:(h,params) =>{
                         return (
                             <div>
@@ -92,7 +87,6 @@ export default {
         getGoodsList(){
             let service = ()=> Api.getGoodsList(this.id)
             let callback = (e) => {
-				console.log(e)
 				this.tableData = e.data.response || []
             }
             this.doService("获取商品列表",service,callback)

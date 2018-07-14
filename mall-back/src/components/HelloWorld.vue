@@ -25,12 +25,30 @@
 				</Sider>
 				<Layout>
 					<Header class="layout-header-bar">
-						<span v-if="user" class="login" style="margin-right:20px">{{user}}</span>
-						<span v-if="user" class="login" @click="logout">登出</span>
+						<Row type="flex" justify="end" align="middle">
+							<Col span="4" style="text-align:right;color:#fff;padding-right:10px">
+								<Dropdown transfer trigger="click" @on-click="switchEvents">
+									<span style="cursor:pointer">
+										<span class="main-user-name">{{ user }}</span>
+										<Icon type="arrow-down-b"></Icon>
+									</span>
+									<DropdownMenu slot="list">
+										<DropdownItem name="logOut">注销</DropdownItem>
+									</DropdownMenu>
+								</Dropdown>
+							</Col>
+							<Col span="4" style="text-align:left">
+								<div class="person"> <img src="../assets/images/userIcon.svg"/> </div>
+							</Col>
+						</Row>
 					</Header>
-					<div style="margin: 20px, background: #fff, padding:20px;margin-top:52px">
+					<div style="background: #fff;padding:20px;margin-top:60px;padding-top:0">
 						<div>
 							<div>
+								<div class="back">
+									<h2 v-if="routeTitle">{{routeTitle}}</h2>
+									<h2 v-else @click="back" style="cursor:pointer"> <Icon type="ios-arrow-back"></Icon> 返回 </h2>
+								</div>
 								<router-view/>
 							</div>
 						</div>
@@ -62,11 +80,12 @@ export default {
 				userInfo:'userInfo',
 				order:'order',
 				account:'account'
-			}
+			},
+			routeTitle:'',
 		}
 	},
 	created(){
-		this.active = this.$route.meta.nav
+		this.upTitleAndBackInfo( this.$route )
 	},
 	methods:{
 		handleSelect(name){
@@ -84,7 +103,30 @@ export default {
 			}
 			this.doServiceAndCallback("登出",service,callback)
 			
-		}
+		},
+		//更新导航的选中情况以及当前路由的标题
+		//当前在父路由，显示路由标题，在子路由显示返回
+		upTitleAndBackInfo( route ){
+			this.active = route.meta.nav;
+			if( route.meta && route.meta.parent ){
+				this.routeTitle = route.meta.title
+			}else{
+				this.routeTitle = ""
+			}
+		},
+		back(){
+			this.$router.go(-1)
+		},
+		switchEvents(name){
+            switch(name){
+                case 'goUser':
+                    this.goUser()
+                break;
+                case 'logOut':
+                    this.logout()
+                break;
+            }
+        },
 	},
 	computed: {
 		menuitemClasses: function () {
@@ -96,7 +138,7 @@ export default {
 	},
 	watch: {
         '$route' (to, from) {
-			this.active = to.meta.nav;
+			this.upTitleAndBackInfo( to )
 			this.$nextTick(()=>{
 				this.updateMenu()
 			})
@@ -136,12 +178,12 @@ img{
 	height: 100%;
 }
 .layout-header-bar{
-	background: #fff;
 	position: fixed;
 	width: 100%;
 	top:0;
 	z-index: 1;
 	box-shadow: 0 1px 1px rgba(0,0,0,.1);
+	background: #3b55a4
 }
 .layout-header-bar span{
 	cursor: pointer;
@@ -173,5 +215,17 @@ img{
 	transition: font-size .2s ease .2s, transform .2s ease .2s;
 	vertical-align: middle;
 	font-size: 22px;
+}
+.back h2{
+	text-align: left;
+	padding: 15px 0;
+}
+.person{
+	display: inline-block
+}
+.person img{
+	width: 30px;
+	height: 30px;
+	vertical-align: middle
 }
 </style>
