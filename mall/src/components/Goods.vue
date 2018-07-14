@@ -36,10 +36,6 @@ export default {
         this.getGoodsList()
     },
     methods:{
-        //获取物品类别id
-        getGoodsId(to){
-            this.id = to.params.id
-        },
         //添加购物车，成功后更新头部购物车的数量
         add(id,store){
             console.log(id,store)
@@ -63,12 +59,6 @@ export default {
             }
             this.doService("获取商品列表",service,callback)
 		},
-    },
-    watch: {
-        '$route' (to, from) {
-            this.getGoodsId( to ) 
-            this.getGoodsList()
-        }
     }
 }
 </script>

@@ -9,8 +9,14 @@ export default new Router({
 		{
 			path: '/',
 			name: 'HelloWorld',
+			redirect: '/index',
 			component: resolve => require(['@/components/HelloWorld'], resolve),
 			children:[
+				{
+					path: '/index',
+					name:'index',
+					component: resolve => require(['@/components/index'], resolve),
+				},
 				{
 					path: '/goods/:id',
 					name:'goods',
