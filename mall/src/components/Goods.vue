@@ -1,21 +1,31 @@
 <template>
-	<Row type="flex" justify="start" style="margin-top:15px;margin-bottom: 30px;">
+	<div class="container" style="margin-top:15px;margin-bottom: 30px;">
         <h3 v-if="tableData.length === 0" style="text-align:center">暂无商品</h3>
-        <Col :xs="12" :sm="8" :md="6" :lg="6" v-for="(item,i) in tableData" :key="i">
+        <div  class="item" v-for="(item,i) in tableData" :key="i">
             <div class="card-box">
-                <div class="add" @click="add(item.id,item.store)">
+                <div v-if="false" class="add" >
                     <Icon type="plus-circled"></Icon>
                 </div>
                 <div class="img">
-                    <img :src="item.commodityPic" />
+                    <img :src="item.commodityPic" :alt="item.commodityName"/>
                 </div>
                 <div class="info">
                     <p class="goods-desc">{{item.commodityBrand}}</p>
                     <p>{{item.commodityPrice}}</p>
                 </div>
+                <div class="mange" >
+                    <div style="display:flex">
+                        <div class="btm" @click="buy(item.id,item.store)">
+                            <Icon type="social-usd"></Icon> 立即购买
+                        </div>
+                        <div class="btm" @click="add(item.id,item.store)">
+                            <Icon type="ios-cart"></Icon> 加入购物车
+                        </div>
+                    </div>
+                </div>
             </div>
-        </Col>
-    </Row>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -50,6 +60,18 @@ export default {
             //TODO...
             Event.trigger('addGood')
         },
+        buy(id,store){
+            console.log(id,store)
+            if( !this.isLogin() ){
+                this.showMessage('添加商品','还未登录')
+                return;
+            }
+            if( store <=0 ){
+                this.showMessage('添加商品','库存不足')
+                return;
+            }
+            //TODO...
+        },
         //获取商品类别导航
         getGoodsList(){
             let service = ()=> Api.getGoodsList(this.id)
@@ -65,6 +87,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.container .item{
+    width: 245px;
+    position: relative;
+}
 .card-box{
     position: relative;
     padding-bottom: 20px;
@@ -72,7 +102,24 @@ export default {
     margin:10px;
     background: #fff;
     border:1px solid #e2d9d9;
-    border-radius: 8px;
+    border-radius: 2px;
+}
+.card-box .mange{
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    bottom: 0;
+    display: none;
+    background: #ff6700
+}
+.card-box .mange .btm{
+    width: 50%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
 }
 .add{
     line-height: 50px;
@@ -89,8 +136,11 @@ export default {
     cursor: pointer;
 }
 .card-box:hover{
-    box-shadow: 10px 10px 5px #888888;
-    transform: translate3d(-1px,-1px,10px)
+    box-shadow: 2px 2px 1px #888888;
+    transform: translate3d(-1px,-1px,1px)
+}
+.card-box:hover .mange{
+    display: block;
 }
 img{
     width:185px;

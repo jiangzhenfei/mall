@@ -1,5 +1,5 @@
 <template>
-    <div  style="background: #fff;width:1226px;height:460px;margin-top:152px;margin:152px auto">
+    <div  style="margin-top:152px">
         <Row type="flex">
             <Sider class='Sider' breakpoint="md" :collapsed-width="78">
                 <Menu ref="nav" theme="dark" width="auto" :class="menuitemClasses" @on-select="handleSelect" v-cloak accordion>
@@ -93,38 +93,6 @@ img{
 .Sider{
 	height: 460px;
 }
-.layout-header-bar{
-	background: #f2f2f2;
-	height: 32px;
-	line-height: 32px;
-	position: fixed;
-	width: 100%;
-	top:0;
-	z-index: 1;
-	box-shadow: 0 1px 1px rgba(0,0,0,.1);
-}
-.layout-header-bar span{
-	cursor: pointer;
-	padding: 0 5px;
-}
-.layout-header-bar span.login{
-	color:#f22e00
-}
-.menu-item span{
-	display: inline-block;
-	overflow: hidden;
-	width: 69px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	vertical-align: bottom;
-	transition: width .2s ease .2s;
-}
-.menu-item i{
-	transform: translateX(0px);
-	transition: font-size .2s ease, transform .2s ease;
-	vertical-align: middle;
-	font-size: 16px;
-}
 .collapsed-menu span{
 	width: 0px;
 	transition: width .2s ease;
@@ -134,9 +102,5 @@ img{
 	transition: font-size .2s ease .2s, transform .2s ease .2s;
 	vertical-align: middle;
 	font-size: 22px;
-}
-.header-icon{
-	color: #f22e00;
-	font-size: 14px
 }
 </style>

@@ -9,7 +9,7 @@
 				<span v-if="user" class="login" @click="logout">登出</span>
 				<span @click="registry">免费注册</span>
 			</Header>
-			<div>
+			<div style="background: #fff;width:1226px;height:460px;margin:50px auto">
 				<router-view/>
 			</div>
 		</div>
@@ -69,16 +69,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.auto_page{
-	width: 1000px;
-	height: 460px;
-	margin: auto;
-	background:#f5f7f9
-}
-img{
-	width: 1000px;
-	height: 460px;
-}
 #app {
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -88,14 +78,11 @@ img{
 	height: 100%;
 }
 .layout{
-	background: #f5f7f9;
+	background: #fff;
 	position: relative;
 	border-radius: 4px;
 	overflow: hidden;
 	height: 100%;
-}
-.Sider{
-	height: 460px;
 }
 .layout-header-bar{
 	background: #f2f2f2;
@@ -128,16 +115,6 @@ img{
 	transition: font-size .2s ease, transform .2s ease;
 	vertical-align: middle;
 	font-size: 16px;
-}
-.collapsed-menu span{
-	width: 0px;
-	transition: width .2s ease;
-}
-.collapsed-menu i{
-	transform: translateX(5px);
-	transition: font-size .2s ease .2s, transform .2s ease .2s;
-	vertical-align: middle;
-	font-size: 22px;
 }
 .header-icon{
 	color: #f22e00;
