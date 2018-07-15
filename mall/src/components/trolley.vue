@@ -1,8 +1,8 @@
 <template>
-	<card id="trolley">
+	<div id="trolley">
         <Row type="flex" justify="end" class="btn-container">
             <Col>
-                <Button type="primary" icon="ios-list-outline">新增商品类别</Button>
+                
             </Col>
         </Row>
         <Table  
@@ -13,22 +13,12 @@
             @on-selection-change="onSelectionChange"
             stripe>
         </Table>
-        <Page 
-            ref="projectPage"
-            :current.sync="page" 
-            :page-size='pageSize' 
-            :total="total" 
-            :page-size-opts="pageSizeOpts"
-            @on-change="handlePage"
-            @on-page-size-change="handlePageSize"
-            show-elevator show-sizer>
-        </Page>
         <Row type="flex" justify="start" class="buy">
             <Col>
                 <Button type="primary" icon="ios-list-outline">购买</Button>
             </Col>
         </Row>
-    </card>
+    </div>
 </template>
 
 <script>
@@ -38,25 +28,21 @@ export default {
     name: 'Login',
     data(){
         return {
-            page:1,
-            pageSize:5,
-            total:0,
-            searchText:'',
-            pageSizeOpts:[5,20,50],
             tableConfig:[],
             loading:false,
             selectionv:[],
-
             tableData:[
                 {
                     img:'/static/logo.png',
                     name:'apple',
                     money:120,
+                    num:2
                 },
                 {
                     img:'/static/logo.png',
                     name:'banner',
                     money:24,
+                    num:7
                 }
             ]
         }
@@ -68,9 +54,9 @@ export default {
         initTable(){
             this.tableConfig = [
                 {type: 'selection',width: 60,align: 'center'},
-                {title: '商品图片',key: 'host',render:(h,params)=>{
+                {title: '商品图片',key: 'host',width: 100,render:(h,params)=>{
                     return (
-                        <img src="/static/logo.png" />
+                        <div class="good-img"><img src="/static/logo.png" /></div>
                     )
                 }},
                 {title: "商品名称",
@@ -83,12 +69,54 @@ export default {
                 {title: "价格",key: "project_name",render:(h,params)=>{
                     return h('span', params.row.money);
                 }},
+                {title: "数量",key: "num",render:(h,params)=>{
+                    return (
+                        <div style="display:flex">
+                            <icon class="minus" type="minus" on-click={() => this.minus(params.row)}></icon>
+                            <input class="input" type="text" value={params.row.num} on-blur={(e)=> this.changeNum(e,params.row)}></input>
+                            <icon class="plus" type="plus-round" on-click={() => this.plus(params.row)}></icon>
+                        </div>
+                    )
+                }},
+                {title: '操作',key: 'id',
+                    render:(h,params) =>{
+                        return (
+                            <div>
+                                <i-button size="small" type="error" icon="trash-a" on-click={() => this.delete(params.row.sortID)}>删除</i-button>
+                            </div>   
+                        )
+                    }
+                }
                 
             ]
         },
         onSelectionChange(){},
-        handlePage(){},
-        handlePageSize(){},
+        delete(){},
+        //减少按钮
+        minus(e){
+            //TODO
+            //修改数量的接口
+            //刷新列表
+        },
+        //增加按钮
+        plus(e){
+            //TODO
+            //修改数量的接口
+            //刷新列表
+        },
+        changeNum(event,e){
+            if( Number(event.target.value)!== e.num ){
+                //TODO
+                //修改数量的接口
+                //刷新列表
+            }
+            
+        },
+        delete(){
+            
+        }
+        
+
     },
 }
 </script>
@@ -97,5 +125,14 @@ export default {
 <style scoped>
 .buy{
     margin-top: 20px;
+}
+.good-img{
+    width: 80px;
+    height: 80px;
+    border: 1px solid #eee;
+}
+.good-img img{
+    width: 100%;
+    height: 100%;
 }
 </style>

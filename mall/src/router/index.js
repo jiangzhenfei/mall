@@ -21,6 +21,11 @@ export default new Router({
 					path: '/goods/:id',
 					name:'goods',
 					component: resolve => require(['@/components/Goods'], resolve),
+				},
+				{
+					path: '/trolley',
+					name: 'trolley',
+					component: resolve => require(['@/components/trolley'], resolve),
 				}
 			]
 		},
@@ -34,10 +39,5 @@ export default new Router({
 			name: 'registry',
 			component: resolve => require(['@/components/registry'], resolve),
 		},
-		{
-			path: '/trolley',
-			name: 'trolley',
-			component: resolve => require(['@/components/trolley'], resolve),
-		}
 	]
 })
