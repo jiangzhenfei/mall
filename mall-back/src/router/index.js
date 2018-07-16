@@ -10,37 +10,37 @@ export default new Router({
 			path: '/',
 			name: 'HelloWorld',
 			redirect: '/goodsClass',
-			meta:{nav:'class'},
+			meta:{ nav:'class' },
 			component: resolve => require(['@/components/HelloWorld'], resolve),
 			children:[
 				{
 					path: '/goodsClass',
 					name:'goodsClassIndex',
-					meta:{nav:'class'},
+					meta:{ nav:'class' },
 					component: resolve => require(['@/components/empty'], resolve),
 					children:[
 						{
 							path: '/goodsClass',
 							name:'goodsClass',
-							meta:{nav:'class',parent:true,title:"商品类别"},
+							meta:{ nav:'class', parent:true, title:"商品类别" },
 							component: resolve => require(['@/components/GoodsClass'], resolve),
 						},
 						{
 							path: '/goodsList/:id',
 							name: 'goodsList',
-							meta:{nav:'class'},
+							meta:{ nav:'class' },
 							component: resolve => require(['@/components/goodsList'], resolve),
 						},
 						{
 							path: '/addGoods/:id',
 							name: 'addGoods',
-							meta:{nav:'class'},
+							meta:{ nav:'class' },
 							component: resolve => require(['@/components/Goods/addGoods'], resolve),
 						},
 						{
 							path: '/amendGoods/:classId/:goodId',
 							name: 'amendGoods',
-							meta:{nav:'class'},
+							meta:{ nav:'class' },
 							component: resolve => require(['@/components/Goods/amendGood'], resolve),
 						},
 					]
